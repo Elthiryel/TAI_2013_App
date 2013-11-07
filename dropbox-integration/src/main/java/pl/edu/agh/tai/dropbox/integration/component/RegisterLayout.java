@@ -14,7 +14,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.LegacyWindow;
 import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 
 @Component
 @Scope("prototype")
@@ -50,6 +53,7 @@ public class RegisterLayout extends FormLayout {
 				binder.getItemDataSource().getBean());
 		
 		//TODO Add getting dropobox token
+		// UI.getCurrent().getPage().setLocation("http://www.dropbox.com");
 
 	}
 
