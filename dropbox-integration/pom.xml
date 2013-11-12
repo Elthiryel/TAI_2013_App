@@ -131,6 +131,11 @@
 			<version>1.2.14</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.dropbox.core</groupId>
+			<artifactId>dropbox-core-sdk</artifactId>
+			<version>1.7.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
