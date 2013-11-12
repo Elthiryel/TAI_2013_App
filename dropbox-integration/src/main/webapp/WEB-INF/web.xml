@@ -41,4 +41,22 @@
 		<servlet-name>Vaadin Sample Application</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>Token Servlet</servlet-name>
+		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
+		<init-param>
+			<description>Vaadin application bean to start</description>
+			<param-name>beanName</param-name>
+			<param-value>tokenUI</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Token Servlet</servlet-name>
+		<url-pattern>/token/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 </web-app>

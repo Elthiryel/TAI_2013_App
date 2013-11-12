@@ -18,7 +18,7 @@ import com.vaadin.ui.CustomComponent;
 @VaadinView(LoginView.NAME)
 public class LoginView  extends CustomComponent implements View {
 	
-	public static final String NAME = "login";
+	public static final String NAME = "";
 	
 	@Autowired
 	private LoginLayout loginLayout;

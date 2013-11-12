@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User implements Serializable{
@@ -64,7 +67,14 @@ public class User implements Serializable{
 	public void setDropboxToken(String dropboxToken) {
 		this.dropboxToken = dropboxToken;
 	}
-
+	
+	@PrePersist
+	public void prePersist(){
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		userPassword=encoder.encode(userPassword);
+		adminPassword=encoder.encode(adminPassword);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

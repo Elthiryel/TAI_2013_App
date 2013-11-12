@@ -22,10 +22,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.LegacyWindow;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
 
 @Component
 @Scope("prototype")
@@ -64,8 +62,8 @@ public class RegisterLayout extends FormLayout {
 		// UI.getCurrent().getPage().setLocation("http://www.dropbox.com");
 		DbxRequestConfig requestConfig = new DbxRequestConfig("text-edit/0.1", null);
 		// APP_KEY and APP_SECRET should come from static class probably, hardcoded here just for tests
-		DbxAppInfo appInfo = new DbxAppInfo("tog0pn54fns1v07", "bag11rqa652hg1s");
-		String redirectUri = "http://localhost:8080/DropboxIntegration/#!token";
+		DbxAppInfo appInfo = new DbxAppInfo("6w16rc7vnufn5vo", "mjxuk6ej89vwwrh");
+		String redirectUri = "http://localhost:8080/DropboxIntegration/token/";
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession(true);
 		String sessionKey = "dropbox-auth-csrf-token";
