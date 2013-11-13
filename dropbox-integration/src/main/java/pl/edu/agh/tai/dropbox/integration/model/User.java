@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,10 +23,16 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@NotNull
+	@Min(3)
 	public String login = "";
 	
+	@NotNull
+	@Min(5)
 	public String userPassword = "";
 	
+	@NotNull
+	@Min(5)
 	public String adminPassword = "";
 	
 	public String dropboxToken;

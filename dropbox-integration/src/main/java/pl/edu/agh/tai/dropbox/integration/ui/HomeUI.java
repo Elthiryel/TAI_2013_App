@@ -6,15 +6,18 @@ import org.springframework.stereotype.Component;
 
 import pl.edu.agh.tai.dropbox.integration.component.LogoLabel;
 import pl.edu.agh.tai.dropbox.integration.dao.UserDao;
+import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
+import pl.edu.agh.tai.dropbox.integration.view.ErrorView;
 import pl.edu.agh.tai.dropbox.integration.view.LoginView;
 import pl.edu.agh.tai.dropbox.integration.view.MainView;
 import pl.edu.agh.tai.dropbox.integration.view.RegisterView;
-import pl.edu.agh.tai.dropbox.integration.view.TokenView;
 import ru.xpoft.vaadin.DiscoveryNavigator;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -45,7 +48,23 @@ public class HomeUI extends UI {
 	}
 
 	private void initListeners() {
-		
+		navigator.addViewChangeListener(new ViewChangeListener() {
+			
+			@Override
+			public boolean beforeViewChange(ViewChangeEvent event) {
+				if ((event.getNewView() instanceof MainView) && SecurityHelper.getUser() == null) {
+					navigator.navigateTo(LoginView.NAME);
+					Notification.show("Access denied!",Notification.Type.ERROR_MESSAGE);
+					return false;
+				}
+				return true;
+			}
+			
+			@Override
+			public void afterViewChange(ViewChangeEvent event) {
+				
+			}
+		});
 		
 	}
 
@@ -53,10 +72,10 @@ public class HomeUI extends UI {
 		navigator = new DiscoveryNavigator(this, viewLayout);
 		navigator.addBeanView(LoginView.NAME, LoginView.class);
 		navigator.addBeanView(RegisterView.NAME, RegisterView.class);
-		navigator.addBeanView(TokenView.NAME, TokenView.class);
 		navigator.addBeanView(MainView.NAME, MainView.class);
 		navigator.navigateTo(LoginView.NAME);
-		
+		navigator.setErrorView(new ErrorView());
+		setNavigator(navigator);
 	}
 
 	private void initLayouts() {

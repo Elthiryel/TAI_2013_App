@@ -3,6 +3,7 @@ package pl.edu.agh.tai.dropbox.integration.dao;
 import java.io.Serializable;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,6 +32,22 @@ public class UserDao implements Serializable {
 		Root<User> root = criteria.from(User.class);
 		criteria.select(root);
 		criteria.where(cb.equal(root.get("login"), login));
-		return em.createQuery(criteria).getSingleResult();
+		try{
+			return em.createQuery(criteria).getSingleResult();
+		}catch(NoResultException e){
+			return null;
+		}
+	}
+	
+	public boolean isLoginUnique(String login){
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = cb.createQuery(Long.class);
+		Root<User> root = criteria.from(User.class);
+		criteria.select(cb.count(root));
+		criteria.where(cb.equal(root.get("login"), login));
+		Long result = em.createQuery(criteria).getSingleResult();
+		if (result.equals(0L))
+			return true;
+		return false;
 	}
 }

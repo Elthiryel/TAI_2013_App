@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<global-method-security secured-annotations="enabled" />
+
+	<!-- <http auto-config="true"> -->
+	<!-- <intercept-url pattern="/**" access="ROLE_USER"/> -->
+	<!-- </http> -->
+
+	<!-- <authentication-manager> -->
+	<!-- <authentication-provider> -->
+	<!-- <user-service> -->
+	<!-- <user name="user" password="user" authorities="ROLE_USER, ROLE_USER_MENU"/> -->
+	<!-- <user name="employee" password="employee" authorities="ROLE_USER, ROLE_EMPLOYEE, 
+		ROLE_EMPLOYEE_MENU"/> -->
+	<!-- <user name="admin" password="admin" authorities="ROLE_USER, ROLE_EMPLOYEE, 
+		ROLE_ADMIN, ROLE_ADMIN_MENU"/> -->
+	<!-- </user-service> -->
+	<!-- </authentication-provider> -->
+	<!-- </authentication-manager> -->
+
+
+
+	<!-- <beans:bean id="provider" class="pl.edu.agh.dsm.security.CustomAuthenticationProvider"/> -->
+
+	<!-- <authentication-manager> -->
+	<!-- <authentication-provider ref="provider"/> -->
+	<!-- </authentication-manager> -->
+
+	<beans:bean id="filterChainProxy"
+		class="org.springframework.security.web.FilterChainProxy">
+		<filter-chain-map path-type="ant">
+			<filter-chain pattern="/**" filters="sif" />
+		</filter-chain-map>
+	</beans:bean>
+
+	<beans:bean id="sif"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+
+</beans:beans>

@@ -22,23 +22,22 @@ import com.vaadin.ui.themes.BaseTheme;
 @Component
 @Scope("prototype")
 public class TokenUI extends UI {
-	
+
 	@Autowired
 	private SessionData sessionData;
-	
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	private Button redirectButton = new Button("Back to login page");
-	
+
 	@Override
 	protected void init(VaadinRequest request) {
 		initContent();
-		if(request.getParameter("error")!=null)
+		if (request.getParameter("error") != null)
 			recoverError();
 		else
 			register(request.getParameter("code"));
-		
 
 	}
 
@@ -46,26 +45,27 @@ public class TokenUI extends UI {
 		redirectButton.setSizeUndefined();
 		redirectButton.setStyleName(BaseTheme.BUTTON_LINK);
 		redirectButton.addClickListener(new ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				redirectToHome();
-				
+
 			}
 		});
 		VerticalLayout mainLayout = new VerticalLayout();
 		mainLayout.setSpacing(true);
 		mainLayout.setMargin(true);
 		mainLayout.addComponent(redirectButton);
-		mainLayout.setComponentAlignment(redirectButton, Alignment.MIDDLE_CENTER);
+		mainLayout.setComponentAlignment(redirectButton,
+				Alignment.MIDDLE_CENTER);
 		setContent(mainLayout);
-		
+
 	}
 
 	private void register(String token) {
 		User newUser = sessionData.getUser();
 		newUser.setDropboxToken(token);
-		//userDao.create(newUser);
+		userDao.create(newUser);
 		promptNotification();
 	}
 
@@ -76,13 +76,15 @@ public class TokenUI extends UI {
 	}
 
 	private void recoverError() {
-		Notification.show("Registration failed",Notification.Type.ERROR_MESSAGE);
-		
+		Notification.show("Registration failed",
+				Notification.Type.ERROR_MESSAGE);
+
 	}
 
 	private void redirectToHome() {
-		Page.getCurrent().setLocation("http://localhost:8080/DropboxIntegration/");
-		
+		Page.getCurrent().setLocation(
+				"http://localhost:8080/DropboxIntegration/");
+
 	}
 
 }

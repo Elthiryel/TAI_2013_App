@@ -10,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
+import pl.edu.agh.tai.dropbox.integration.dao.UserDao;
 import pl.edu.agh.tai.dropbox.integration.model.User;
 
 import com.dropbox.core.DbxAppInfo;
@@ -17,11 +18,15 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxSessionStore;
 import com.dropbox.core.DbxStandardSessionStore;
 import com.dropbox.core.DbxWebAuth;
+import com.vaadin.data.Validator;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.UI;
 
@@ -34,10 +39,13 @@ public class RegisterLayout extends FormLayout {
 
 	@Autowired
 	private SessionData sessionData;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@PostConstruct
 	private void init() {
-
+	
 		initUserLayout();
 		setListeners();
 	}
@@ -47,7 +55,13 @@ public class RegisterLayout extends FormLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				onRegisterAction();
+				try{
+					binder.commit();
+					onRegisterAction();
+				}catch(CommitException e){
+					Notification.show("Wrong data provided",Notification.Type.ERROR_MESSAGE);
+				}
+				
 
 			}
 		});
@@ -76,9 +90,30 @@ public class RegisterLayout extends FormLayout {
 	private void initUserLayout() {
 		User user = new User();
 		binder.setItemDataSource(user);
-		addComponent(binder.buildAndBind("login"));
+	
+		Field<?> loginField = binder.buildAndBind("login");
+		loginField.addValidator(new UserValidator());
+	
+		addComponent(loginField);
 		addComponent(binder.buildAndBind("User password", "userPassword", PasswordField.class));
 		addComponent(binder.buildAndBind("Admin password", "adminPassword", PasswordField.class));
 		addComponent(registerButton);
+		binder.setBuffered(true);
 	}
+	
+	private class UserValidator implements Validator{
+
+
+
+		@Override
+		public void validate(Object value) throws InvalidValueException {
+			String login;
+			if(value != null){
+				 login = value.toString();
+				 if(!userDao.isLoginUnique(login))
+					 throw new InvalidValueException("Login already exists");
+			}
+			
+		}}
+	
 }

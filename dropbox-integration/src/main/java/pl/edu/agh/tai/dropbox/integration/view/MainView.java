@@ -8,12 +8,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import pl.edu.agh.tai.dropbox.integration.component.FilesPanel;
+import pl.edu.agh.tai.dropbox.integration.component.MainViewLayout;
 import pl.edu.agh.tai.dropbox.integration.security.Role;
 import ru.xpoft.vaadin.VaadinView;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope("prototype")
@@ -24,11 +27,12 @@ public class MainView extends CustomComponent implements View {
 	public static final String NAME = "main";
 	
 	@Autowired
-	private FilesPanel filesPanel;
+	private MainViewLayout mainViewLayout;
 	
 	@PostConstruct
 	private void init(){
-		setCompositionRoot(filesPanel);
+
+		setCompositionRoot(mainViewLayout);
 	}
 	@Override
 	public void enter(ViewChangeEvent event) {

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import pl.edu.agh.tai.dropbox.integration.security.Role;
+import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
@@ -48,5 +51,7 @@ public class FilesPanel extends Panel {
 		mainLayout.addComponent(fileList);
 		mainLayout.addComponent(footerLayout);
 		
+		addButton.setVisible(SecurityHelper.hasRole(Role.ADMIN));
+		removeButton.setVisible(SecurityHelper.hasRole(Role.ADMIN));
 	}
 }

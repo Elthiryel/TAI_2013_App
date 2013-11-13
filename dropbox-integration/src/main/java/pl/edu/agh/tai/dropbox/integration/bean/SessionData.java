@@ -21,5 +21,9 @@ public class SessionData implements Serializable {
 		this.user = user;
 	}
 	
+	public void clearData(){
+		user = null;
+	}
+	
 	
 }
