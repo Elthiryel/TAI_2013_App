@@ -7,7 +7,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.dropbox.core.DbxEntry;
+import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
+
 import com.vaadin.ui.ListSelect;
 
 @Component
@@ -21,10 +22,11 @@ public class FilesList extends ListSelect {
 		setImmediate(true);
 	}
 	
-	public void addFiles(Collection<DbxEntry> files){
+	public void addFiles(Collection<DropboxFile> files){
 		removeAllItems();
-		for(DbxEntry file : files){
-			addItem(file.name);
+		for(DropboxFile file : files){
+			addItem(file);
+			setItemCaption(file, file.getName());
 		}
 	}
 }

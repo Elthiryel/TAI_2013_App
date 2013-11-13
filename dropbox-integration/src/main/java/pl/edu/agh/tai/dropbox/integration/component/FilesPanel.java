@@ -1,7 +1,6 @@
 package pl.edu.agh.tai.dropbox.integration.component;
 
-import java.util.LinkedList;
-import java.util.Locale;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
@@ -9,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import pl.edu.agh.tai.dropbox.integration.bean.DropboxManager;
 import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
+import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
 import pl.edu.agh.tai.dropbox.integration.security.Role;
 import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
 
-import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxRequestConfig;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
@@ -46,15 +45,10 @@ public class FilesPanel extends Panel {
 		setComponents();
 		setListeners();
 		setContent(mainLayout);
-		DbxClient client = new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString()), 
-				sessionData.getUser().getDropboxToken());
+		DropboxManager manager = new DropboxManager(sessionData.getUser().getDropboxToken());
 		DbxEntry.WithChildren listing;
 		try {
-			listing = client.getMetadataWithChildren("/");
-			LinkedList<DbxEntry> files = new LinkedList<DbxEntry>();
-			for (DbxEntry child : listing.children) {
-			    files.add(child);
-			}
+			Collection<DropboxFile> files = manager.getFiles();
 			fileList.addFiles(files);
 		} catch (DbxException e) {
 			// TODO Some error handling ;)

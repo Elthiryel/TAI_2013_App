@@ -5,9 +5,9 @@ import java.io.Serializable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.dropbox.core.DbxWebAuth;
-
 import pl.edu.agh.tai.dropbox.integration.model.User;
+
+import com.dropbox.core.DbxWebAuth;
 
 @Component
 @Scope("session")
