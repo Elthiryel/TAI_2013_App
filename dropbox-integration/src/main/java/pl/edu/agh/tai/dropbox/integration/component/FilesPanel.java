@@ -31,6 +31,9 @@ public class FilesPanel extends Panel {
 	@Autowired
 	private FilesList fileList;
 	
+	@Autowired
+	private SessionData sessionData;
+	
 	private VerticalLayout mainLayout = new VerticalLayout();
 	private HorizontalLayout footerLayout = new HorizontalLayout();
 	private Button downloadButton = new Button("Download");
@@ -43,20 +46,20 @@ public class FilesPanel extends Panel {
 		setComponents();
 		setListeners();
 		setContent(mainLayout);
-//		DbxClient client = null; new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString(), 
-//				sessionData.getUser().getDropboxToken());
-//		DbxEntry.WithChildren listing;
-//		try {
-//			listing = client.getMetadataWithChildren("/");
-//			LinkedList<DbxEntry> files = new LinkedList<DbxEntry>();
-//			for (DbxEntry child : listing.children) {
-//			    files.add(child);
-//			}
-//			fileList.addFiles(files);
-//		} catch (DbxException e) {
-//			// TODO Some error handling ;)
-//			e.printStackTrace();
-//		}
+		DbxClient client = new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString()), 
+				sessionData.getUser().getDropboxToken());
+		DbxEntry.WithChildren listing;
+		try {
+			listing = client.getMetadataWithChildren("/");
+			LinkedList<DbxEntry> files = new LinkedList<DbxEntry>();
+			for (DbxEntry child : listing.children) {
+			    files.add(child);
+			}
+			fileList.addFiles(files);
+		} catch (DbxException e) {
+			// TODO Some error handling ;)
+			e.printStackTrace();
+		}
 
 	}
 

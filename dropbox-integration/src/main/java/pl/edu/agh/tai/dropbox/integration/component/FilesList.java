@@ -18,6 +18,7 @@ public class FilesList extends ListSelect {
 	private void init(){
 		setCaption("Files");
 		setSizeFull();
+		setImmediate(true);
 	}
 	
 	public void addFiles(Collection<DbxEntry> files){
