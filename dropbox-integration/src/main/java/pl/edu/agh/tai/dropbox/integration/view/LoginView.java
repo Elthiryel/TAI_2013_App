@@ -4,8 +4,10 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
 import pl.edu.agh.tai.dropbox.integration.component.LoginLayout;
 import ru.xpoft.vaadin.VaadinView;
 
@@ -23,14 +25,17 @@ public class LoginView  extends CustomComponent implements View {
 	@Autowired
 	private LoginLayout loginLayout;
 	
+	@Autowired
+	private SessionData sessionData;
+	
 	@PostConstruct
 	private void init(){
 		setCompositionRoot(loginLayout);
 	}
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
-
+		SecurityContextHolder.clearContext();
+		sessionData.clearData();
 	}
 
 }
