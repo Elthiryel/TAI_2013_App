@@ -76,13 +76,14 @@ public class RegisterLayout extends FormLayout {
 		// UI.getCurrent().getPage().setLocation("http://www.dropbox.com");
 		DbxRequestConfig requestConfig = new DbxRequestConfig("text-edit/0.1", null);
 		// APP_KEY and APP_SECRET should come from static class probably, hardcoded here just for tests
-		DbxAppInfo appInfo = new DbxAppInfo("6w16rc7vnufn5vo", "mjxuk6ej89vwwrh");
+		DbxAppInfo appInfo = new DbxAppInfo("tog0pn54fns1v07", "bag11rqa652hg1s");
 		String redirectUri = "http://localhost:8080/DropboxIntegration/token/";
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession(true);
 		String sessionKey = "dropbox-auth-csrf-token";
 		DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session, sessionKey);
 		DbxWebAuth webAuth = new DbxWebAuth(requestConfig, appInfo, redirectUri, csrfTokenStore);
+		sessionData.setAuth(webAuth);
 		String authUrl = webAuth.start();
 		UI.getCurrent().getPage().setLocation(authUrl);
 	}

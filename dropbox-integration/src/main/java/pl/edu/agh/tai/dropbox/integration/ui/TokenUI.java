@@ -1,5 +1,7 @@
 package pl.edu.agh.tai.dropbox.integration.ui;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
 import pl.edu.agh.tai.dropbox.integration.dao.UserDao;
 import pl.edu.agh.tai.dropbox.integration.model.User;
 
+import com.dropbox.core.DbxAuthFinish;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
@@ -36,8 +39,17 @@ public class TokenUI extends UI {
 		initContent();
 		if (request.getParameter("error") != null)
 			recoverError();
-		else
-			register(request.getParameter("code"));
+		else {
+			Map<String, String[]> paramMap = request.getParameterMap();
+			try {
+				DbxAuthFinish authFinish = sessionData.getAuth().finish(paramMap);
+				register(authFinish.accessToken);
+			} catch (Exception e) {
+				Notification notification = new Notification(e.getMessage());
+				notification.setDelayMsec(Notification.DELAY_FOREVER);
+				notification.show(getPage());
+			}
+		}
 
 	}
 
