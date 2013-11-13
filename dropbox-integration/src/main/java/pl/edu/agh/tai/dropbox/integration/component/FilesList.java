@@ -24,8 +24,7 @@ public class FilesList extends ListSelect {
 	public void addFiles(Collection<DbxEntry> files){
 		removeAllItems();
 		for(DbxEntry file : files){
-			addItem(file);
-			setItemCaption(file, file.name);
+			addItem(file.name);
 		}
 	}
 }
