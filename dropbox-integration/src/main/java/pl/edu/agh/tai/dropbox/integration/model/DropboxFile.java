@@ -15,8 +15,9 @@ public class DropboxFile {
 	private DbxEntry entry;
 	private DbxEntry.File file;
 	private DbxEntry.WithChildren withChildren;
-	
+
 	public DropboxFile(String path, DbxClient client) throws DbxException {
+		System.out.println(path);
 		this.client = client;
 		this.withChildren = client.getMetadataWithChildren(path);
 		this.entry = this.withChildren.entry;
@@ -26,31 +27,31 @@ public class DropboxFile {
 			this.file = null;
 		}
 	}
-	
+
 	public String getName() {
 		return entry.name;
 	}
-	
+
 	public String getPath() {
 		return entry.path;
 	}
-	
+
 	public boolean isFile() {
 		return entry.isFile();
 	}
-	
+
 	public boolean isFolder() {
 		return entry.isFolder();
 	}
-	
+
 	public String getSize() {
 		if (file != null) {
 			return file.humanSize;
 		} else {
-			return null;
+			return "";
 		}
 	}
-	
+
 	public Date getModificationTime() {
 		if (file != null) {
 			return file.lastModified;
@@ -58,7 +59,7 @@ public class DropboxFile {
 			return null;
 		}
 	}
-	
+
 	public Collection<DropboxFile> getChildren() throws DbxException {
 		List<DropboxFile> list = new LinkedList<DropboxFile>();
 		for (DbxEntry e : withChildren.children) {
@@ -66,7 +67,7 @@ public class DropboxFile {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof DropboxFile) {
@@ -76,10 +77,10 @@ public class DropboxFile {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.getPath().hashCode();
 	}
-	
+
 }

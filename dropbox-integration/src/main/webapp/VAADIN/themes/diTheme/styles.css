@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+@import "../reindeer/legacy-styles.css";
+
+
+.logoLayoutImg{
+	margin-left: 45px;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+.logoLayoutLabel{
+	font-size: 80px;
+	line-height: normal;
+	text-align: center;
+	font-family: times;
+	color: blue;
+	
+}

@@ -9,7 +9,7 @@ import pl.edu.agh.tai.dropbox.integration.model.User;
 
 import com.dropbox.core.DbxWebAuth;
 
-@Component
+@Component("sessionData")
 @Scope("session")
 public class SessionData implements Serializable {
 

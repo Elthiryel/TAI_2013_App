@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +22,14 @@ import com.dropbox.core.DbxWriteMode;
 
 @Component
 @Scope("session")
+@DependsOn("sessionData")
 public class DropboxManager {
 
 	private DbxClient client;
 	
-	public DropboxManager(String dropboxToken) {
-		this.client = new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString()), dropboxToken);
+	@Autowired
+	public DropboxManager(SessionData sessionData) {
+		this.client = new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString()), sessionData.getUser().getDropboxToken());
 	}
 	
 	public Collection<DropboxFile> getFiles() throws DbxException {

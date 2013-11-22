@@ -13,6 +13,7 @@ import pl.edu.agh.tai.dropbox.integration.view.MainView;
 import pl.edu.agh.tai.dropbox.integration.view.RegisterView;
 import ru.xpoft.vaadin.DiscoveryNavigator;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
@@ -29,6 +30,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Component
 @Scope("session")
+@Theme("diTheme")
 public class HomeUI extends UI {
 	
 	@Autowired

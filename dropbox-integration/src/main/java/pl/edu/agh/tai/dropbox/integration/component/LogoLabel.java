@@ -5,12 +5,12 @@ import com.vaadin.ui.Label;
 
 public class LogoLabel extends Label {
 
-	private final String LOGO_TITTLE = "<font color=blue size=6>"
-			+ "Dropbox Integration"
-			+ "</font>";
+	private final String LOGO_TITTLE = "DROPBOX INTEGRATION" ; 
 	
 	public LogoLabel(){
 		setContentMode(ContentMode.HTML);
 		setValue(LOGO_TITTLE);
+		setStyleName("logoLayoutLabel");
+		setSizeFull();
 	}
 }
