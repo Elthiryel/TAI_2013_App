@@ -15,6 +15,8 @@ public class DropboxFile {
 	private DbxEntry entry;
 	private DbxEntry.File file;
 	private DbxEntry.WithChildren withChildren;
+	
+	private DropboxFile parent;
 
 	public DropboxFile(String path, DbxClient client) throws DbxException {
 		System.out.println(path);
@@ -26,6 +28,7 @@ public class DropboxFile {
 		} else {
 			this.file = null;
 		}
+		
 	}
 
 	public String getName() {
@@ -62,10 +65,28 @@ public class DropboxFile {
 
 	public Collection<DropboxFile> getChildren() throws DbxException {
 		List<DropboxFile> list = new LinkedList<DropboxFile>();
+		DropboxFile file;
 		for (DbxEntry e : withChildren.children) {
-			list.add(new DropboxFile(e.path, client));
+			file = new DropboxFile(e.path, client);
+			file.setParent(this);
+			list.add(file);
 		}
 		return list;
+	}
+	
+	
+	public DropboxFile getParent() {
+		return parent;
+	}
+
+	public void setParent(DropboxFile parent) {
+		this.parent = parent;
+	}
+	
+	public boolean hasParent(){
+		if(parent == null)
+			return false;
+		return true;
 	}
 
 	@Override

@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
 
 import com.dropbox.core.DbxException;
-import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.ContainerHierarchicalWrapper;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.ui.TreeTable;
 
@@ -43,51 +40,77 @@ public class FileTreeTable extends TreeTable {
 
 		hierachicalContainer.addContainerProperty("name", String.class, "");
 		hierachicalContainer.addContainerProperty("size", String.class, "");
-		hierachicalContainer.addContainerProperty("modificationTime", Date.class, null);
-		
+		hierachicalContainer.addContainerProperty("modificationTime",
+				Date.class, null);
+
 	}
 
 	public void addFiles(Collection<DropboxFile> files) throws DbxException {
 		hierachicalContainer.removeAllItems();
-		for (DropboxFile file : files){
+		for (DropboxFile file : files) {
 			hierachicalContainer.addItem(file);
-			if(file.isFolder()){
-				hierachicalContainer.setChildrenAllowed(file, true);
-				addChildren(file,file.getChildren());
-			}
-			else
-				hierachicalContainer.setChildrenAllowed(file, false);
+			setChildParentRelation(file);
 		}
 		setProperties();
+		selectFirst();
 		sort();
+
 	}
 
-	private void addChildren(DropboxFile file, Collection<DropboxFile> children) throws DbxException {
-		for(DropboxFile child : children){
+	private void setChildParentRelation(DropboxFile file) throws DbxException {
+		if (file.isFolder()) {
+			hierachicalContainer.setChildrenAllowed(file, true);
+			addChildren(file, file.getChildren());
+		} else
+			hierachicalContainer.setChildrenAllowed(file, false);
+	}
+
+	public void addFile(DropboxFile newFile) throws DbxException {
+		hierachicalContainer.addItem(newFile);
+		if (newFile.hasParent())
+			hierachicalContainer.setParent(newFile, newFile.getParent());
+		setChildParentRelation(newFile);
+		setProperties(newFile);
+	}
+
+	private void addChildren(DropboxFile file, Collection<DropboxFile> children)
+			throws DbxException {
+		for (DropboxFile child : children) {
 			hierachicalContainer.addItem(child);
 			hierachicalContainer.setParent(child, file);
-			if(child.isFolder()){
-				hierachicalContainer.setChildrenAllowed(child, true);
-				addChildren(child,child.getChildren());
-			}
-			else
-				hierachicalContainer.setChildrenAllowed(child, false);
+			setChildParentRelation(child);
 		}
-		
+
 	}
 
 	private void setProperties() {
-		BeanItem<DropboxFile> beanItem;
 		for (Object item : hierachicalContainer.getItemIds()) {
-			beanItem = new BeanItem<DropboxFile>((DropboxFile) item);
-			for (Object property : hierachicalContainer
-					.getContainerPropertyIds()) {
-				hierachicalContainer
-						.getItem(item)
-						.getItemProperty(property)
-						.setValue(beanItem.getItemProperty(property).getValue());
+			setProperties(item);
 
-			}
+		}
+
+	}
+
+	public void selectFirst() {
+		select(hierachicalContainer.getItemIds().iterator().next());
+	}
+
+	public DropboxFile getSelectedDropboxFile() {
+		return (DropboxFile) getValue();
+	}
+
+	public void removeFile(DropboxFile selectedDropboxFile) {
+		if (hierachicalContainer.containsId(selectedDropboxFile)) {
+			hierachicalContainer.removeItem(selectedDropboxFile);
+		}
+	}
+
+	private void setProperties(Object item) {
+		BeanItem<DropboxFile> beanItem = new BeanItem<DropboxFile>(
+				(DropboxFile) item);
+		for (Object property : hierachicalContainer.getContainerPropertyIds()) {
+			hierachicalContainer.getItem(item).getItemProperty(property)
+					.setValue(beanItem.getItemProperty(property).getValue());
 		}
 	}
 }

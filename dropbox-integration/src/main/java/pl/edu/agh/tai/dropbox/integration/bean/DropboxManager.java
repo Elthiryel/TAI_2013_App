@@ -20,33 +20,71 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWriteMode;
 
+/**
+ * Bean class for dropbox operation.
+ * Simple wrap DbxClient for required operations
+ * @author konrad
+ *
+ */
 @Component
 @Scope("session")
 @DependsOn("sessionData")
 public class DropboxManager {
-
+	
+	/**
+	 * Registered application name
+	 */
+	private static final String APP ="TAIApp/1.0";
+	
+	/**
+	 * Dropobox client
+	 */
 	private DbxClient client;
 	
+	/**
+	 * Initialize dropbox client
+	 * @param sessionData injected sessionData for user dropbox token
+	 */
 	@Autowired
 	public DropboxManager(SessionData sessionData) {
-		this.client = new DbxClient(new DbxRequestConfig("TAIApp/1.0", Locale.getDefault().toString()), sessionData.getUser().getDropboxToken());
+		this.client = new DbxClient(new DbxRequestConfig(APP, Locale
+				.getDefault().toString()), sessionData.getUser()
+				.getDropboxToken());
 	}
 	
+
 	public Collection<DropboxFile> getFiles() throws DbxException {
 		DropboxFile root = new DropboxFile("/", client);
 		return root.getChildren();
 	}
-	
-	public void downloadFile(File outputFile, String path) throws DbxException, IOException {
-		client.getFile(path, null, new FileOutputStream(outputFile));
+
+	public File downloadFile(DropboxFile file) throws DbxException, IOException {
+		File outputFile = new File(file.getName());
+		client.getFile(file.getPath(), null, new FileOutputStream(outputFile));
+		return outputFile;
 	}
-	
-	public void uploadFile(File inputFile, String path) throws FileNotFoundException, DbxException, IOException {
-		client.uploadFile(path, DbxWriteMode.add(), inputFile.length(), new FileInputStream(inputFile));
+
+	public DropboxFile uploadFile(File inputFile, DropboxFile parent)
+			throws FileNotFoundException, DbxException, IOException {
+		DropboxFile uploadedFile;
+		String path;
+		String fileName = inputFile.getName();
+		
+		
+		if (parent != null)
+			path = parent.getPath() + "/" + fileName;
+		else
+			path = "/" + fileName;
+
+		client.uploadFile(path, DbxWriteMode.add(), inputFile.length(),
+				new FileInputStream(inputFile));
+		uploadedFile = new DropboxFile(path, client);
+		uploadedFile.setParent(parent);
+		return uploadedFile;
 	}
-	
-	public void deleteFile(String path) throws DbxException {
-		client.delete(path);
+
+	public void deleteFile(DropboxFile file) throws DbxException {
+		client.delete(file.getPath());
 	}
-	
+
 }
