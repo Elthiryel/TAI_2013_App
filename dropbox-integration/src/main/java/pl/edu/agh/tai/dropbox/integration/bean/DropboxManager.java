@@ -27,7 +27,7 @@ import com.dropbox.core.DbxWriteMode;
  *
  */
 @Component
-@Scope("session")
+@Scope("prototype")
 @DependsOn("sessionData")
 public class DropboxManager {
 	

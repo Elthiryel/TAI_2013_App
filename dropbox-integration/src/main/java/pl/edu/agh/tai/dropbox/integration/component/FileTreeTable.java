@@ -2,17 +2,22 @@ package pl.edu.agh.tai.dropbox.integration.component;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import pl.edu.agh.tai.dropbox.integration.bean.ErrorRecoverer;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
 
 import com.dropbox.core.DbxException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.HierarchicalContainer;
+import com.vaadin.ui.Tree.ExpandEvent;
+import com.vaadin.ui.Tree.ExpandListener;
 import com.vaadin.ui.TreeTable;
 
 @Component
@@ -20,6 +25,7 @@ import com.vaadin.ui.TreeTable;
 public class FileTreeTable extends TreeTable {
 
 	private HierarchicalContainer hierachicalContainer;
+	private Set<DropboxFile> alreadyExpanedItems = new HashSet<DropboxFile>();
 
 	@PostConstruct
 	private void init() {
@@ -33,7 +39,26 @@ public class FileTreeTable extends TreeTable {
 		setImmediate(true);
 		setWidth(800, Unit.PIXELS);
 		setPageLength(20);
+		setListeners();
 
+	}
+
+	private void setListeners() {
+		addExpandListener(new ExpandListener() {
+
+			@Override
+			public void nodeExpand(ExpandEvent event) {
+				DropboxFile parent = (DropboxFile) event.getItemId();
+				try {
+					if (!alreadyExpanedItems.contains(parent)) {
+						addChildren(parent, parent.getChildren());
+						alreadyExpanedItems.add(parent);
+					}
+				} catch (DbxException e) {
+					ErrorRecoverer.recoverError(e);
+				}
+			}
+		});
 	}
 
 	private void initContainerProperties() {
@@ -58,11 +83,9 @@ public class FileTreeTable extends TreeTable {
 	}
 
 	private void setChildParentRelation(DropboxFile file) throws DbxException {
-		if (file.isFolder()) {
-			hierachicalContainer.setChildrenAllowed(file, true);
-			addChildren(file, file.getChildren());
-		} else
-			hierachicalContainer.setChildrenAllowed(file, false);
+		
+		hierachicalContainer.setChildrenAllowed(file, file.isFolder());
+		
 	}
 
 	public void addFile(DropboxFile newFile) throws DbxException {
@@ -79,6 +102,7 @@ public class FileTreeTable extends TreeTable {
 			hierachicalContainer.addItem(child);
 			hierachicalContainer.setParent(child, file);
 			setChildParentRelation(child);
+			setProperties(child);
 		}
 
 	}
