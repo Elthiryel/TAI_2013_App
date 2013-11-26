@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import pl.edu.agh.tai.dropbox.integration.bean.ErrorRecoverer;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
+import pl.edu.agh.tai.dropbox.integration.util.ErrorRecoverer;
 
 import com.dropbox.core.DbxException;
 import com.vaadin.data.util.BeanItem;

@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import pl.edu.agh.tai.dropbox.integration.bean.ErrorRecoverer;
+import pl.edu.agh.tai.dropbox.integration.util.ErrorRecoverer;
 
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;

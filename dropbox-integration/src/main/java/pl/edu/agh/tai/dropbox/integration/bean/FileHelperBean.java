@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import pl.edu.agh.tai.dropbox.integration.exception.NoFileSelectedException;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
+import pl.edu.agh.tai.dropbox.integration.util.ErrorRecoverer;
 
 import com.google.gwt.thirdparty.guava.common.io.Files;
 import com.vaadin.server.FileResource;

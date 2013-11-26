@@ -1,4 +1,4 @@
-package pl.edu.agh.tai.dropbox.integration.bean;
+package pl.edu.agh.tai.dropbox.integration.util;
 
 import com.vaadin.ui.Notification;
 

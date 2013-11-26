@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import pl.edu.agh.tai.dropbox.integration.bean.DropboxManager;
-import pl.edu.agh.tai.dropbox.integration.bean.ErrorRecoverer;
 import pl.edu.agh.tai.dropbox.integration.bean.FileHelperBean;
 import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
 import pl.edu.agh.tai.dropbox.integration.exception.NoFileSelectedException;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
 import pl.edu.agh.tai.dropbox.integration.security.Role;
 import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
+import pl.edu.agh.tai.dropbox.integration.util.ErrorRecoverer;
 
 import com.dropbox.core.DbxException;
 import com.vaadin.data.Property.ValueChangeEvent;
