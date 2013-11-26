@@ -21,29 +21,32 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWriteMode;
 
 /**
- * Bean class for Dropbox operations.
- * Simple wrapper of DbxClient for required operations.
+ * Bean class for Dropbox operations. Simple wrapper of DbxClient for required
+ * operations.
+ * 
  * @author konrad
- *
+ * 
  */
 @Component
 @Scope("prototype")
 @DependsOn("sessionData")
 public class DropboxManager {
-	
+
 	/**
 	 * registered application name
 	 */
-	private static final String APP ="TAIApp/1.0";
-	
+	private static final String APP = "TAIApp/1.0";
+
 	/**
 	 * Dropbox client
 	 */
 	private DbxClient client;
-	
+
 	/**
 	 * Initializes Dropbox client.
-	 * @param sessionData injected sessionData for user Dropbox token
+	 * 
+	 * @param sessionData
+	 *            injected sessionData for user Dropbox token
 	 */
 	@Autowired
 	public DropboxManager(SessionData sessionData) {
@@ -51,9 +54,10 @@ public class DropboxManager {
 				.getDefault().toString()), sessionData.getUser()
 				.getDropboxToken());
 	}
-	
+
 	/**
 	 * Gets all files from Dropbox root directory.
+	 * 
 	 * @return files from Dropbox root directory
 	 * @throws DbxException
 	 */
@@ -61,16 +65,20 @@ public class DropboxManager {
 		DropboxFile root = new DropboxFile("/", client);
 		return root.getChildren();
 	}
-	
-	public File downloadFile(File outputFile, DropboxFile file) throws DbxException, IOException {
+
+	public File downloadFile(File outputFile, DropboxFile file)
+			throws DbxException, IOException {
 		client.getFile(file.getPath(), null, new FileOutputStream(outputFile));
 		return outputFile;
 	}
 
 	/**
 	 * Uploads file to Dropbox.
-	 * @param inputFile java.io.File instance containing uploaded file
-	 * @param parent parent Dropbox directory
+	 * 
+	 * @param inputFile
+	 *            java.io.File instance containing uploaded file
+	 * @param parent
+	 *            parent Dropbox directory
 	 * @return uploaded Dropbox file
 	 * @throws FileNotFoundException
 	 * @throws DbxException
@@ -81,24 +89,26 @@ public class DropboxManager {
 		DropboxFile uploadedFile;
 		String path;
 		String fileName = inputFile.getName();
-		
-		
+
 		if (parent != null && !parent.getPath().equals("/"))
 			path = parent.getPath() + "/" + fileName;
 		else
 			path = "/" + fileName;
 
-		com.dropbox.core.DbxEntry.File result = client.uploadFile(path, DbxWriteMode.add(), inputFile.length(),
-				new FileInputStream(inputFile));
+		com.dropbox.core.DbxEntry.File result = client.uploadFile(path,
+				DbxWriteMode.add(), inputFile.length(), new FileInputStream(
+						inputFile));
 		uploadedFile = new DropboxFile(result.path, client);
 		uploadedFile.setParent(parent);
-		
+
 		return uploadedFile;
 	}
 
 	/**
 	 * Removes file from Dropbox.
-	 * @param file removed file
+	 * 
+	 * @param file
+	 *            removed file
 	 * @throws DbxException
 	 */
 	public void deleteFile(DropboxFile file) throws DbxException {
