@@ -9,6 +9,10 @@ import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 
+/**
+ * Class representing Dropbox file.
+ * @author elthiryel
+ */
 public class DropboxFile {
 
 	private DbxClient client;
@@ -18,6 +22,12 @@ public class DropboxFile {
 	
 	private DropboxFile parent;
 
+	/**
+	 * Creates the instance representing a Dropbox file.
+	 * @param path full Dropbox file path
+	 * @param client Dropbox client
+	 * @throws DbxException
+	 */
 	public DropboxFile(String path, DbxClient client) throws DbxException {
 		System.out.println(path);
 		this.client = client;
@@ -31,22 +41,42 @@ public class DropboxFile {
 		
 	}
 
+	/**
+	 * Returns file name (last part of the path).
+	 * @return file name
+	 */
 	public String getName() {
 		return entry.name;
 	}
 
+	/**
+	 * Returns full file path.
+	 * @return file path
+	 */
 	public String getPath() {
 		return entry.path;
 	}
 
+	/**
+	 * Returns true if this file is regular (non-directory), otherwise returns false.
+	 * @return true if file is regular, otherwise false
+	 */
 	public boolean isFile() {
 		return entry.isFile();
 	}
 
+	/**
+	 * Returns true if this file is a directory, otherwise returns false.
+	 * @return true if file is a directory, otherwise false
+	 */
 	public boolean isFolder() {
 		return entry.isFolder();
 	}
 
+	/**
+	 * Returns file size in human-readable format.
+	 * @return file size in human-readable format
+	 */
 	public String getSize() {
 		if (file != null) {
 			return file.humanSize;
@@ -55,6 +85,10 @@ public class DropboxFile {
 		}
 	}
 
+	/**
+	 * Returns file last modification time.
+	 * @return file last modification time
+	 */
 	public Date getModificationTime() {
 		if (file != null) {
 			return file.lastModified;
@@ -63,6 +97,11 @@ public class DropboxFile {
 		}
 	}
 
+	/**
+	 * Returns immediate children of this file.
+	 * @return immediate children of this file
+	 * @throws DbxException
+	 */
 	public Collection<DropboxFile> getChildren() throws DbxException {
 		List<DropboxFile> list = new LinkedList<DropboxFile>();
 		DropboxFile file;
@@ -74,15 +113,26 @@ public class DropboxFile {
 		return list;
 	}
 	
-	
+	/**
+	 * Returns parent directory (file) of this file.
+	 * @return parent directory
+	 */
 	public DropboxFile getParent() {
 		return parent;
 	}
 
+	/**
+	 * Sets parent directory (file) of this file.
+	 * @param parent directory
+	 */
 	public void setParent(DropboxFile parent) {
 		this.parent = parent;
 	}
 	
+	/**
+	 * Returns true if this file has a parent set, otherwise returns false.
+	 * @return true if this file has a parent set, otherwise false
+	 */
 	public boolean hasParent(){
 		if(parent == null)
 			return false;
