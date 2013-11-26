@@ -10,7 +10,7 @@ import pl.edu.agh.tai.dropbox.integration.model.User;
 import com.dropbox.core.DbxWebAuth;
 
 /**
- * Session bean for storing important data
+ * Session bean for storing important data.
  * @author konrad
  *
  */

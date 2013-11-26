@@ -18,7 +18,7 @@ import com.vaadin.server.FileResource;
 
 /**
  * Session bean class. Helper for file operations. Provides required conversions
- * and types
+ * and types.
  * 
  * @author konrad
  * 
@@ -28,7 +28,7 @@ import com.vaadin.server.FileResource;
 public class FileHelperBean {
 
 	/**
-	 * DropboxManager for operation on dropbox service
+	 * DropboxManager for operation on dropbox service.
 	 */
 	@Autowired
 	private DropboxManager dropboxManager;
@@ -40,7 +40,7 @@ public class FileHelperBean {
 	private File tempDir;
 
 	/**
-	 * Initialization of bean Creation of temporary directory
+	 * Initialization of bean Creation of temporary directory.
 	 */
 	@PostConstruct
 	private void init() {
@@ -51,7 +51,7 @@ public class FileHelperBean {
 	}
 
 	/**
-	 * Cleans and delete temporary directory before bean destruction
+	 * Cleans and delete temporary directory before bean destruction.
 	 */
 	@PreDestroy
 	private void destroy() {
@@ -61,7 +61,7 @@ public class FileHelperBean {
 	}
 
 	/**
-	 * Downloads file from dropbox and converting it to FileResource
+	 * Downloads file from dropbox and converting it to FileResource.
 	 * 
 	 * @param file
 	 *            DropboxFile to download
@@ -87,7 +87,7 @@ public class FileHelperBean {
 	}
 	
 	/**
-	 * Uploads new file to dropbox
+	 * Uploads new file to dropbox.
 	 * 
 	 * @param target parent/selected file/place to upload new file
 	 * @param file file to upload
