@@ -77,8 +77,8 @@ public class FileTreeTable extends TreeTable {
 			setChildParentRelation(file);
 		}
 		setProperties();
-		selectFirst();
 		sort();
+		selectFirst();
 
 	}
 
@@ -94,6 +94,7 @@ public class FileTreeTable extends TreeTable {
 			hierachicalContainer.setParent(newFile, newFile.getParent());
 		setChildParentRelation(newFile);
 		setProperties(newFile);
+		select(newFile);
 	}
 
 	private void addChildren(DropboxFile file, Collection<DropboxFile> children)
@@ -116,7 +117,8 @@ public class FileTreeTable extends TreeTable {
 	}
 
 	public void selectFirst() {
-		select(hierachicalContainer.getItemIds().iterator().next());
+		if(hierachicalContainer.size()>0)
+			select(hierachicalContainer.getItemIds().iterator().next());
 	}
 
 	public DropboxFile getSelectedDropboxFile() {
@@ -125,7 +127,9 @@ public class FileTreeTable extends TreeTable {
 
 	public void removeFile(DropboxFile selectedDropboxFile) {
 		if (hierachicalContainer.containsId(selectedDropboxFile)) {
+			Object previous = hierachicalContainer.prevItemId(selectedDropboxFile);
 			hierachicalContainer.removeItem(selectedDropboxFile);
+			select(previous);
 		}
 	}
 
@@ -137,4 +141,5 @@ public class FileTreeTable extends TreeTable {
 					.setValue(beanItem.getItemProperty(property).getValue());
 		}
 	}
+
 }

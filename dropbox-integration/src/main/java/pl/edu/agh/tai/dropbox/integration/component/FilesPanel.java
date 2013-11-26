@@ -12,13 +12,14 @@ import pl.edu.agh.tai.dropbox.integration.bean.DropboxManager;
 import pl.edu.agh.tai.dropbox.integration.bean.ErrorRecoverer;
 import pl.edu.agh.tai.dropbox.integration.bean.FileHelperBean;
 import pl.edu.agh.tai.dropbox.integration.bean.SessionData;
-import pl.edu.agh.tai.dropbox.integration.exception.DownloadFolderNotSupportedException;
 import pl.edu.agh.tai.dropbox.integration.exception.NoFileSelectedException;
 import pl.edu.agh.tai.dropbox.integration.model.DropboxFile;
 import pl.edu.agh.tai.dropbox.integration.security.Role;
 import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
 
 import com.dropbox.core.DbxException;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -59,9 +60,10 @@ public class FilesPanel extends Panel {
 		setCaption("Files");
 		setComponents();
 		setContent(mainLayout);
+		setListeners();
 		getFiles();
 		initDownloader();
-		setListeners();
+		
 	}
 
 	private void initDownloader() {
@@ -73,7 +75,7 @@ public class FilesPanel extends Panel {
 			fileDownloader.extend(downloadButton);
 			fileDownloader.beforeClientResponse(true);
 		} catch (NoFileSelectedException e) {
-			ErrorRecoverer.recoverError(e);
+			downloadButton.setEnabled(false);
 		}
 
 	}
@@ -119,12 +121,33 @@ public class FilesPanel extends Panel {
 				DropboxFile selectedFile = fileTreeTable
 						.getSelectedDropboxFile();
 				try {
-					dropboxManager.deleteFile(selectedFile);
-					fileTreeTable.removeFile(selectedFile);
+					if(selectedFile != null){
+						dropboxManager.deleteFile(selectedFile);
+						fileTreeTable.removeFile(selectedFile);
+					}
 				} catch (DbxException e) {
 					ErrorRecoverer.recoverError(e);
 				}
 
+			}
+		});
+		
+		fileTreeTable.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				DropboxFile file = fileTreeTable.getSelectedDropboxFile();
+				if(file != null){
+					downloadButton.setEnabled(file.isFile());
+					removeButton.setEnabled(file.isFile());
+				}
+				else{
+					downloadButton.setEnabled(false);
+					removeButton.setEnabled(false);
+				}
+				
+				if(fileDownloader == null)
+					initDownloader();
 			}
 		});
 	}
@@ -146,8 +169,6 @@ public class FilesPanel extends Panel {
 	private void download() {
 		try {
 			DropboxFile fileToDownload = fileTreeTable.getSelectedDropboxFile();
-			if (fileToDownload != null && fileToDownload.isFolder())
-				throw new DownloadFolderNotSupportedException();
 			fileDownloader.setFileDownloadResource(fileHelperBean
 					.downloadAsFileResource(fileToDownload));
 		} catch (Exception e) {
