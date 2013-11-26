@@ -66,6 +66,22 @@ public class DropboxManager {
 	/**
 	 * Downloads file from Dropbox.
 	 * @param file file to download
+	 * @return java.io.File class instance containing downloaded file
+	 * @throws DbxException
+	 * @throws IOException
+	 */
+	
+	/**
+	 * Downloads file from Dropbox.
+	 * @param file file to download
+	 * @return java.io.File class instance containing downloaded file
+	 * @throws DbxException
+	 * @throws IOException
+	 */
+	
+	/**
+	 * Downloads file from Dropbox.
+	 * @param file file to download
 	 * @param outputFile file to write data
 	 * @return java.io.File class instance containing downloaded file
 	 * @throws DbxException
