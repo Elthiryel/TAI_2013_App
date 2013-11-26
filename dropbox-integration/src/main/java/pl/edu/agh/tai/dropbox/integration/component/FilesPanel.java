@@ -2,6 +2,7 @@ package pl.edu.agh.tai.dropbox.integration.component;
 
 import java.util.Collection;
 
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,12 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * Panel with file's table and buttons (download, add, remove).
+ * 
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class FilesPanel extends Panel {
