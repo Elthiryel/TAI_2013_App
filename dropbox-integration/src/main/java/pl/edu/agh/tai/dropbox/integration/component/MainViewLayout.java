@@ -15,6 +15,13 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * Main view layout. Contains {@link FilesPanel} and logout button.
+ * Extends {@link VerticalLayout}
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class MainViewLayout extends VerticalLayout {

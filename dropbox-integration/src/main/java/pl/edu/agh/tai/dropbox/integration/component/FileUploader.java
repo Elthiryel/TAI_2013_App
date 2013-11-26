@@ -15,6 +15,12 @@ import pl.edu.agh.tai.dropbox.integration.util.ErrorRecoverer;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 
+/**
+ * File uploader extends {@link Upload} implements {@link Receiver}.
+ * Provides mechanism of uploading file to server.
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class FileUploader extends Upload implements Receiver {
@@ -43,7 +49,11 @@ public class FileUploader extends Upload implements Receiver {
         }
         return fos; 
     }
-
+	
+	/**
+	 * Gets uploaded file
+	 * @return File - uploaded file
+	 */
 	public File getFile() {
 		return file;
 	}

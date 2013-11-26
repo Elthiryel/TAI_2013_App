@@ -30,6 +30,18 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.BaseTheme;
 
+/**
+ * Login layout. 
+ * Contains form with fields:
+ * -login
+ * -password
+ * -as admin checkbox
+ * -link to registration page
+ * 
+ * Extends {@link VerticalLayout}
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class LoginLayout extends VerticalLayout {

@@ -30,6 +30,17 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.UI;
 
+/**
+ * Registration layout.
+ * Contains fields:
+ * -user name
+ * -user password
+ * -admin password
+ * -register button
+ * Extends {@link FormLayout}
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class RegisterLayout extends FormLayout {
@@ -72,10 +83,7 @@ public class RegisterLayout extends FormLayout {
 		sessionData.setUser(
 				binder.getItemDataSource().getBean());
 		
-		//TODO Add getting dropobox token
-		// UI.getCurrent().getPage().setLocation("http://www.dropbox.com");
 		DbxRequestConfig requestConfig = new DbxRequestConfig("text-edit/0.1", null);
-		// APP_KEY and APP_SECRET should come from static class probably, hardcoded here just for tests
 		DbxAppInfo appInfo = new DbxAppInfo("tog0pn54fns1v07", "bag11rqa652hg1s");
 		String redirectUri = "http://localhost:8080/DropboxIntegration/token/";
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -102,6 +110,13 @@ public class RegisterLayout extends FormLayout {
 		binder.setBuffered(true);
 	}
 	
+	/**
+	 * Validator for user login field.
+	 * Check if login is unique.
+	 * {link {@link Validator}
+	 * @author konrad
+	 *
+	 */
 	private class UserValidator implements Validator{
 
 
