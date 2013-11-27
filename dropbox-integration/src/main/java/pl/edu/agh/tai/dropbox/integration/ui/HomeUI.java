@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import pl.edu.agh.tai.dropbox.integration.component.LogoLabel;
+import pl.edu.agh.tai.dropbox.integration.component.LogoLayout;
 import pl.edu.agh.tai.dropbox.integration.dao.UserDao;
 import pl.edu.agh.tai.dropbox.integration.security.SecurityHelper;
 import pl.edu.agh.tai.dropbox.integration.view.ErrorView;
@@ -83,7 +83,7 @@ public class HomeUI extends UI {
 	private void initLayouts() {
 		mainLayout = new VerticalLayout();
 		upperLayout = new HorizontalLayout();
-		upperLayout.addComponent(new LogoLabel());
+		upperLayout.addComponent(new LogoLayout());
 		upperLayout.setSpacing(true);
 		upperLayout.setMargin(true);
 		viewLayout = new VerticalLayout();
