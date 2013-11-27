@@ -22,6 +22,12 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.BaseTheme;
 
+/**
+ * UI for dropbox token request
+ * {@link UI}
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 public class TokenUI extends UI {

@@ -15,12 +15,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import pl.edu.agh.tai.dropbox.integration.dao.UserDao;
 
+/**
+ * Abstract class provides authentication mechanism depends on role.
+ * {@link AuthenticationManager}
+ * @author konrad
+ *
+ */
 public abstract class AbstractAuthenticationManager implements
 		AuthenticationManager, Serializable {
 
 	@Autowired
 	private UserDao userDao;
-
+	
+	/**
+	 * Authenticates and setr roles.
+	 * 
+	 * {@link AuthenticationManager#authenticate(Authentication)}
+	 */
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
@@ -38,8 +49,17 @@ public abstract class AbstractAuthenticationManager implements
 		}
 		throw new BadCredentialsException("Bad credentials");
 	}
-
+	
+	/**
+	 * Gets password
+	 * @param user
+	 * @return String password
+	 */
 	public abstract String getPassword(pl.edu.agh.tai.dropbox.integration.model.User user);
-
+	
+	/**
+	 * Gets authorities
+	 * @return List<GrantedAuthority> list of authorities
+	 */
 	public abstract List<GrantedAuthority> getAuthorities();
 }

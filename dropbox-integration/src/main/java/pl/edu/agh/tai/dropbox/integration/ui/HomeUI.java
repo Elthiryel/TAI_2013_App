@@ -23,8 +23,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * Main vaadin component. It registers all views and creates site template
- * 
+ * Main vaadin component. It registers all views and creates site template.
+ * {@link UI}
  * @author konrad
  * 
  */

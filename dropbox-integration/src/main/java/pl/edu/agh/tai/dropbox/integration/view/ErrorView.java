@@ -6,6 +6,11 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
+/**
+ * Error view. Extends {@link CustomComponent} implements {@link View}.
+ * @author konrad
+ *
+ */
 public class ErrorView extends CustomComponent implements View {
 
 	@Override

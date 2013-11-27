@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 
 import pl.edu.agh.tai.dropbox.integration.model.User;
 
+/**
+ * Implementation of {@link AbstractAuthenticationManager} for Admin user
+ *  
+ * @author konrad
+ *
+ */
 @Component
 @Scope("session")
 public class AdminAuthenticationManager extends AbstractAuthenticationManager {

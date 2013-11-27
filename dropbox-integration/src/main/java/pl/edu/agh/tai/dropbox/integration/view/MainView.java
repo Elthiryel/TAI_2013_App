@@ -15,6 +15,11 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
 
+/**
+ * Main view. Extends {@link CustomComponent} implements {@link View}.
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 @VaadinView(MainView.NAME)

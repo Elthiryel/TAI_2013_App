@@ -15,6 +15,11 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
 
+/**
+ * Login view. Extends {@link CustomComponent} implements {@link View}.
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 @VaadinView(LoginView.NAME)
@@ -32,6 +37,10 @@ public class LoginView  extends CustomComponent implements View {
 	private void init(){
 		setCompositionRoot(loginLayout);
 	}
+	
+	/**
+	 * On enter clears session data
+	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
 		SecurityContextHolder.clearContext();

@@ -13,6 +13,11 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
 
+/**
+ * Register view. Extends {@link CustomComponent} implements {@link View}.
+ * @author konrad
+ *
+ */
 @Component
 @Scope("prototype")
 @VaadinView(RegisterView.NAME)
@@ -30,7 +35,6 @@ public class RegisterView extends CustomComponent implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
