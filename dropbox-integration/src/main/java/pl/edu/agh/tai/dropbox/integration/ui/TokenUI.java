@@ -88,7 +88,7 @@ public class TokenUI extends UI {
 	}
 
 	private void promptNotification() {
-		Notification notification = new Notification("Registration succeed");
+		Notification notification = new Notification("Registration succeeded");
 		notification.setDelayMsec(Notification.DELAY_FOREVER);
 		notification.show(getPage());
 	}

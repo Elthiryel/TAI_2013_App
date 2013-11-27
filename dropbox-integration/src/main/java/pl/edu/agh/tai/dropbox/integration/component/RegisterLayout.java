@@ -161,7 +161,7 @@ public class RegisterLayout extends FormLayout {
 			String stringValue = value.toString();
 			if (stringValue.trim().length() < 5)
 				throw new InvalidValueException(
-						"Value to short. Min 5 characters");
+						"Value too short. Provide at least 5 characters");
 		}
 
 	}
